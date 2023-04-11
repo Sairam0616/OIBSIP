@@ -1,134 +1,133 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Temperature Conversion</title>
-     
-   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>calculator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
- 
- <header> <h1>Temperature Conversion</h1></header>
 
-<body>
-    
-	<!-- Celsius to Fahrenheit -->
-	<input type="radio" id="celsiusToFahrenheit" name="conversionType" value="celsiusToFahrenheit">
-	<label for="celsiusToFahrenheit">Celsius to Fahrenheit</label><br>
-
-	<!-- Fahrenheit to Celsius -->
-	<input type="radio" id="fahrenheitToCelsius" name="conversionType" value="fahrenheitToCelsius">
-	<label for="fahrenheitToCelsius">Fahrenheit to Celsius</label><br>
-
-	<!-- Celsius to Kelvin -->
-	<input type="radio" id="celsiusToKelvin" name="conversionType" value="celsiusToKelvin">
-	<label for="celsiusToKelvin">Celsius to Kelvin</label><br>
-
-	<!-- Kelvin to Celsius -->
-	<input type="radio" id="kelvinToCelsius" name="conversionType" value="kelvinToCelsius">
-	<label for="kelvinToCelsius">Kelvin to Celsius</label><br>
-
-	<!-- Fahrenheit to Kelvin -->
-	<input type="radio" id="fahrenheitToKelvin" name="conversionType" value="fahrenheitToKelvin">
-	<label for="fahrenheitToKelvin">Fahrenheit to Kelvin</label><br>
-
-	<!-- Kelvin to Fahrenheit -->
-	<input type="radio" id="kelvinToFahrenheit" name="conversionType" value="kelvinToFahrenheit">
-	<label for="kelvinToFahrenheit">Kelvin to Fahrenheit</label><br>
-
-	<!-- Input value -->
-	<label for="inputValue">Enter value:</label>
-	<h3><input type="number" id="inputValue" name="inputValue"><br></h3>
-    
-	<button onclick="checkRadio()">Convert</button><br>
-
-	<!-- Output value -->
-	<h3>Output Value: </h3><b><p id="outputValue"></p></b>
-    
-    <img src="tem3.jpg" class="right">
-	<script>
-        function checkRadio() {
-			var radios = document.querySelectorAll('input[type="radio"]');
-			var selected = false;
-
-			for (var i = 0; i < radios.length; i++) {
-				if (radios[i].checked) {
-					selected = true;
-					break;
-				}
-			}
-
-			if (selected) {
-                convert();
-
-			} else {
-				alert("Please select at least one radio button");
-			}
-		}
-		function convert() {
-			// Get selected conversion type
-			const conversionType = document.querySelector('input[name="conversionType"]:checked').value;
-			
-			// Get input value
-			const inputValue = parseFloat(document.getElementById("inputValue").value);
-
-			// Convert temperature
-			let outputValue;
-			switch(conversionType) {
-				case "celsiusToFahrenheit":
-					outputValue = (inputValue * 1.8) + 32;
-					break;
-				case "fahrenheitToCelsius":
-					outputValue = (inputValue - 32) / 1.8;
-					break;
-				case "celsiusToKelvin":
-					outputValue = inputValue + 273.15;
-					break;
-				case "kelvinToCelsius":
-					outputValue = inputValue - 273.15;
-					break;
-				case "fahrenheitToKelvin":
-					outputValue = (inputValue + 459.67) * (5/9);
-					break;
-				case "kelvinToFahrenheit":
-					outputValue = (inputValue * 1.8) - 459.67;
-					break;
-			}
-
-			// Display output value
-			document.getElementById("outputValue").innerHTML = outputValue.toFixed(2);
-		}
-	</script>
-    <style>
-        body {
-         font-family: Arial, sans-serif;
-         background-image: url("call.jpg");
-       
-         padding:5%;
-         text-align:justify;
+        <body>    
+            <div class="container">
+                <div class="display">
+                    <input id="screen" type="text" placeholder="0">
+                </div>
         
-         background-repeat: no-repeat;
-        }
-
-        h1 {
-          text-align: center;
-          padding:0%;
+                <div class="btns">
+                    <div class="row">
+                        <button id="ce" onclick="backspc()">CE</button>
+                        <button onclick="fact()">x!</button>
+                        <button class="btn">(</button>
+                        <button class="btn">)</button>
+                        <button class="btn">%</button>
+                        <button id="ac" onclick="screen.value=''">AC</button>
+                    </div>
+        
+                    <div class="row">
+                        <button onclick="sin()">sin</button>
+                        <button onclick="pi()">π</button>
+                        <button class="btn">7</button>
+                        <button class="btn">8</button>
+                        <button class="btn">9</button>
+                        <button class="btn">÷</button>
+                    </div>
+        
+                    <div class="row">
+                        <button onclick="cos()">cos</button>
+                        <button onclick="log()">log</button>
+                        <button class="btn">4</button>
+                        <button class="btn">5</button>
+                        <button class="btn">6</button>
+                        <button class="btn">×</button>
+                    </div>
+        
+                    <div class="row">
+                        <button onclick="tan()">tan</button>
+                        <button onclick="sqrt()">sqrt√</button>
+                        <button class="btn">1</button>
+                        <button class="btn">2</button>
+                        <button class="btn">3</button>
+                        <button class="btn">-</button>
+                    </div>
+        
+                    <div class="row">
+                        <button onclick="e()">e</button>
+                        <button onclick="pow()">x <span style="position: relative; bottom: .4em; right: .1em;">y</span>
+                        </button>
+                        <button class="btn">0</button>
+                        <button class="btn">.</button>
+                        <button id="eval" onclick="screen.value=eval(screen.value)">=</button>
+                        <button class="btn">+</button>
+                    </div>
+                </div>
+            </div>
+        </body>
+ <script>
+            var screen = document.querySelector('#screen');
+            var btn = document.querySelectorAll('.btn');
+            for (val of btn) {
+                val.addEventListener('click', (e) => {
+                    btntext = e.target.innerText;
+        
+                    if (btntext == '×') {
+                        btntext = '*';
+                    }
+        
+                    if (btntext == '÷') {
+                        btntext = '/';
+                    }
+                    screen.value += btntext;
+                });
             }
- 
-
-img.right {
-	float: right;
-	margin: 0 0 1em 1em;
-}
-
-input{
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-output{
-  text-align: center;
-}
-
-    </style>
-</body>
-</html>
-
+        
+            function sin() {
+                screen.value = Math.sin(screen.value);
+            }
+        
+            function cos() {
+                screen.value = Math.cos(screen.value);
+            }
+        
+            function tan() {
+                screen.value = Math.tan(screen.value);
+            }
+        
+            function pow() {
+                screen.value = Math.pow(screen.value, 2);
+            }
+        
+            function sqrt() {
+                screen.value = Math.sqrt(screen.value, 2);
+            }
+        
+            function log() {
+                screen.value = Math.log(screen.value);
+            }
+        
+            function pi() {
+                screen.value = 3.14159265359;
+            }
+        
+            function e() {
+                screen.value = 2.71828182846;
+            }
+        
+            function fact() {
+                var i, num, f;
+                f = 1
+                num = screen.value;
+                for (i = 1; i <= num; i++) {
+                    f = f * i;
+                }
+        
+                i = i - 1;
+        
+                screen.value = f;
+            }
+        
+            function backspc() {
+                screen.value = screen.value.substr(0, screen.value.length - 1);
+            }
+        </script>
+        
+        </html>
